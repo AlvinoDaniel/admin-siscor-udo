@@ -121,6 +121,7 @@
       :data="dataSelect"
       :departments="itemsData"
       @procesado="getDepartaments"
+      @close="reset"
     />
   </v-container>
 </template>
@@ -176,6 +177,7 @@ export default {
       return this.departaments.length > 0
         ? this.departaments.map(item => ({
           ...item,
+         // codigo: item?.codigo ? parseInt(item?.codigo ?? 0) : 0,
           jefe_nombre: item?.jefe?.nombres_apellidos,
           nucleo_nombre: item?.nucleo?.nombre,
           superior: item?.dpto_superior !== null ? item?.dpto_superior?.nombre : ''
@@ -188,7 +190,10 @@ export default {
     this.getDepartaments()
   },
   methods: {
-
+    reset(){
+      this.isCreate = true;
+      this.dataSelect = null;
+    },
     async getDepartaments () {
       this.loading = true
       try {

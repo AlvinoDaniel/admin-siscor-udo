@@ -111,10 +111,11 @@
                 v-model="departamentInfo.id_departamento_superior"
                 :items="allDepartaments"
                 item-text="nombre"
-                item-value="id"
+                item-value="codigo"
                 outlined
                 dense
                 clearable
+                :disabled="departamentInfo.cod_nucleo === ''"
                 :error-messages="errors[0]"
               >
               <template v-slot:append>
@@ -226,6 +227,7 @@ export default {
     data(val) {
       if(Object.values(val).length > 0) {
         this.departamentInfo = {...val }
+        console.log(this.departamentInfo)
       }
       else
         this.departamentInfo = dataDefault();
@@ -239,7 +241,7 @@ export default {
   computed:{
     allDepartaments(){
       return this.departments.length > 0
-        ? this.departments.filter(item => item.id !== this.departamentInfo?.id)
+        ? this.departments.filter(item => item.id !== this.departamentInfo?.id && item?.cod_nucleo === this.departamentInfo?.cod_nucleo)
         : []
     }
   },
@@ -251,6 +253,7 @@ export default {
       this.show = false;
       this.departamentInfo = dataDefault();
       this.$refs.DEPARTAMENT_FORM.reset();
+      this.$emit('close', true);
     },
     async getNucleos() {
       this.loadNucleo = true
@@ -267,7 +270,8 @@ export default {
       const valid = await this.$refs.DEPARTAMENT_FORM.validate();
       if(valid) {
         try {
-          this.loadingAction = true;
+          console.log(this.departamentInfo)
+         this.loadingAction = true;
           const { message } = await saveDepartament({
             info: this.departamentInfo,
             action: this.action,
