@@ -2,7 +2,7 @@
   <v-dialog
     v-model="show"
     persistent
-    max-width="50%"
+    max-width="70%"
     scrollable
     content-class="content-scroll"
   >
@@ -57,7 +57,19 @@
                 />
               </validation-provider>
             </v-col>
-            <v-col cols="12" sm="5" md="5" class="pt-2 pb-0">
+            <v-col cols="6" md="2" class="pt-2 pb-0">
+              <label-form text="Correlativo" required />
+              <validation-provider name="Correlativo" vid="correlativo" rules="required|numeric" v-slot="{ errors }">
+                <v-text-field
+                  v-model="departamentInfo.correlativo"
+                  outlined
+                  dense
+                  type="number"
+                  :error-messages="errors[0]"
+                />
+              </validation-provider>
+            </v-col>
+            <v-col cols="12" md="4" class="pt-2 pb-0">
               <label-form text="Código" required/>
               <validation-provider name="codigo" vid="codigo" rules="required" v-slot="{ errors }">
                 <v-text-field
@@ -68,7 +80,7 @@
                 />
               </validation-provider>
             </v-col>
-            <v-col cols="12" md="5" class="pt-2 pb-0">
+            <v-col cols="12" md="4" class="pt-2 pb-0">
               <label-form text="Email"/>
               <validation-provider name="email" vid="correo" rules="email" v-slot="{ errors }">
                 <v-text-field
@@ -181,6 +193,7 @@ const dataDefault = () => ({
   siglas: '',
   cod_nucleo: '',
   correo: '',
+  correlativo: '',
   id_departamento_superior: '',
 });
 export default {
